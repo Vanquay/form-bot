@@ -1,0 +1,1 @@
+console.log('Workday sign up bot initialized');
