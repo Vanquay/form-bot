@@ -1,5 +1,6 @@
 import { Builder, By } from "selenium-webdriver";
 import dotenv from "dotenv";
+import { elements } from "./CONSTANTS";
 
 console.log('Application bot initialized')
 
@@ -16,7 +17,7 @@ export const signIn = async() => {
     let password = await driver.findElement(By.id('input-5'))
     password.click()
     await driver.actions().sendKeys(process.env.PASSWORD!).perform()
-    let signInButton = await driver.findElement(By.className('css-pr8xwr'))
+    let signInButton = await driver.findElement(By.xpath(elements.signIn))
     const actions = driver.actions({async: true});
     await actions.move({origin: signInButton}).click().perform();
     fileUpload()
@@ -26,7 +27,12 @@ export const signIn = async() => {
 export const fileUpload = async() => {
     await driver.findElement(By.className("css-1hyfx7x")).sendKeys(process.env.RESUME!)
     //Next Page
-    let continueButton = driver.findElement(By.className('css-pr8xwr'))
+    let continueButton = driver.findElement(By.xpath(elements.continueButton))
     continueButton.click()
-} 
+}
+
+//Autofill fills some part in already
+export const myInformation = () => {
+
+}
 signIn()
