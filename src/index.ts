@@ -1,10 +1,42 @@
-import { Builder } from "selenium-webdriver";
+import { Builder, By, Key, logging, until } from "selenium-webdriver";
+import dotenv from "dotenv";
+import { TIMEOUT } from "dns";
 
+logging.Level.ALL
+dotenv.config();
 const url = process.env.SIGNUP_URL
-console.log(url)
-
 console.log('Workday sign up bot initialized');
 
-const driver = await new Builder().forBrowser('chrome').build()
+//Initialize driver
+const driver = await new Builder().forBrowser('firefox').build()
+await driver.get(process.env.SIGNUP_URL!)
 
+export const signUpPage = async() => {
+    await driver.wait(until.elementsLocated(By.className('css-14pfav7')), 15000)
+    let createAccountButton = await driver.findElement(By.className('css-14pfav7'));
+    createAccountButton.click();
+    await driver.manage().setTimeouts( { implicit: 10000 } );
+    inputSignUp();
+}
+
+export const inputSignUp = async() => {
+    await driver.manage().setTimeouts( { implicit: 10000 } );
+    let email = await driver.findElement(By.id('input-6'))
+    email.click()
+    await driver.actions().sendKeys(process.env.EMAIL!).perform()
+    let password = await driver.findElement(By.id('input-7'))
+    password.click()
+    await driver.actions().sendKeys(process.env.PASSWORD!).perform()
+    let verifyPassword = await driver.findElement(By.id('input-8'))
+    verifyPassword.click()
+    await driver.actions().sendKeys(process.env.PASSWORD!).perform()
+    let createButton = await driver.findElement(By.className('css-pr8xwr'))
+    let form = await driver.findElement(By.className('css-w0sgi8'))
+    createButton.sendKeys(Key.ENTER);
+    const actions = driver.actions({async: true});
+    await actions.move({origin: createButton}).click().perform();
+    //driver.quit()
+}
+
+signUpPage();
 
