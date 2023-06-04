@@ -4,7 +4,6 @@ import { TIMEOUT } from "dns";
 
 logging.Level.ALL
 dotenv.config();
-const url = process.env.SIGNUP_URL
 console.log('Workday sign up bot initialized');
 
 //Initialize driver
@@ -31,7 +30,6 @@ export const inputSignUp = async() => {
     verifyPassword.click()
     await driver.actions().sendKeys(process.env.PASSWORD!).perform()
     let createButton = await driver.findElement(By.className('css-pr8xwr'))
-    let form = await driver.findElement(By.className('css-w0sgi8'))
     createButton.sendKeys(Key.ENTER);
     const actions = driver.actions({async: true});
     await actions.move({origin: createButton}).click().perform();
